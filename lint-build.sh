@@ -2,61 +2,83 @@
 
 set -e
 
-# build-dependencies on Debian-based systems:
-# automake autoconf2.13 libtool cmake unzip zip libasound2-dev libbz2-dev libcairo2-dev
-# libevent-dev libfreetype6-dev libgnomevfs2-dev libgtk2.0-dev libharfbuzz-dev libhunspell-dev
-# libidl-dev libjpeg-dev libnotify-dev libnspr4-dev libnss3-dev libpixman-1-dev libpng12-dev
-# libsqlite3-dev libxext-dev libxt-dev zlib1g-dev
-
 export DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export SB_VENDOR_BINARIES_CO_ROOT=$DIR
 export SB_VENDOR_BUILD_ROOT=$DIR
 
 export LINT_BUILD=1
 
-if [ ! -d "build" ]; then
-    mkdir build
+debug=enabled
+
+for opt; do
+  optarg="${opt#*=}"
+  case "$opt" in
+    --disable-debug)
+      debug="disabled"
+      ;;
+    --arch=*)
+      arch="$optarg"
+      ;;
+    *)
+      origpath="$optarg"
+      ;;
+  esac
+done
+
+if [ "x$arch" = "x" ]; then
+    arch=$(uname -m)
 fi
+case $arch in
+    i?86|ppc)
+        mflag="-m32"
+        ;;
+    x86?64|ppc64|amd64)
+        mflag="-m64"
+        ;;
+    *)
+        mflag=""
+        ;;
+esac
+
+rm -rf build
+mkdir build
 
 case $OSTYPE in
     linux*)
-        if [ "$LINT_BUILD" -eq "1" ] ; then
-            # hardening flags
-            export CFLAGS="-fstack-protector --param=ssp-buffer-size=4 -D_FORTIFY_SOURCE=2"
-            export CXXFLAGS="-fstack-protector --param=ssp-buffer-size=4 -D_FORTIFY_SOURCE=2"
-            export LDFLAGS="-Wl,-z,now -Wl,-z,relro"
-        fi
-
+        # hardening flags
+        export CFLAGS="$mflag -fstack-protector --param=ssp-buffer-size=4 -D_FORTIFY_SOURCE=2"
+        export CXXFLAGS="$mflag -fstack-protector --param=ssp-buffer-size=4 -D_FORTIFY_SOURCE=2"
+        export LDFLAGS="$mflag -Wl,-z,now -Wl,-z,relro"
         export SB_CFLAGS=$CFLAGS
         export SB_CCFLAGS=$CFLAGS
         export SB_CXXFLAGS=$CXXFLAGS
-
         export SB_LDFLAGS=$LDFLAGS
 
         if [ -n "$DIST_NAME_BINARIES_DIR" ] ; then
-            if [ "$DIST_NAME_BINARIES_DIR" -eq "1" ] && \
-               [ ! -d "dist/linux-$(uname -m)" ] ; then
-                mkdir -p "dist/linux-$(uname -m)"
+            if [ "$DIST_NAME_BINARIES_DIR" -eq "1" ]; then
+                mkdir -p "dist/linux-$arch"
             fi
         fi
-        if [ ! -d "linux-$(uname -m)" ]; then
-            mkdir -p "linux-$(uname -m)"
-        fi
-        if [ ! -d "checkout/linux-$(uname -m)" ]; then
-            mkdir -p "checkout/linux-$(uname -m)"
+        mkdir -p "linux-$arch"
+        mkdir -p "checkout/linux-$arch"
+
+        mkflags="SB_VENDOR_ARCH=Linux SB_VENDOR_SUBARCH=$arch SB_TARGET_ARCH=linux-$arch SB_ARCH_DETECTED=1"
+
+        if [ $debug = enabled ]; then
+            xr_target="xr-all"
+        else
+            xr_target="xr-release"
+            mkflags="$mkflags SB_BUILD_TYPE=release"
         fi
 
         echo -e "Building sqlite...\n"
-        make -C sqlite -f Makefile.songbird
-        strip --strip-all "linux-$(uname -m)/sqlite/release/bin/sqlite3"
-        strip --strip-debug "linux-$(uname -m)/sqlite/release/lib/libsqlite3.a"
+        make -C sqlite -f Makefile.songbird $mkflags
 
         echo -e "Building taglib...\n"
-        make -C taglib -f Makefile.songbird
-        strip --strip-debug "linux-$(uname -m)/taglib/release/lib/libtag.a"
+        make -C taglib -f Makefile.songbird $mkflags
 
         echo -e "Building xulrunner 1.9.2...\n"
-        make -C xulrunner-1.9.2 -f Makefile.songbird xr-all
+        make -C xulrunner-1.9.2 -f Makefile.songbird $xr_target $mkflags
 
     ;;
     *)

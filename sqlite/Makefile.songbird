@@ -41,6 +41,11 @@ SB_VENDOR_TARGET_CONFIGURE_OPTS := \
    --enable-threadsafe \
    $(NULL)
 
+ifeq (Linux,$(SB_VENDOR_ARCH))
+SB_VENDOR_TARGET_CONFIGURE_OPTS += \
+   --host=$(SB_VENDOR_SUBARCH)-unknown-linux-gnu
+endif
+
 SB_CFLAGS += -DSQLITE_ALLOW_XTHREAD_CONNECT=1 \
              -DSQLITE_OMIT_LOAD_EXTENSION=1 \
              -DSQLITE_THREADSAFE=1 \
@@ -50,12 +55,6 @@ SB_CFLAGS += -DSQLITE_ALLOW_XTHREAD_CONNECT=1 \
              -DSQLITE_CORE \
              -DSQLITE_ENABLE_FTS3 \
              $(NULL)
-
-# preedTODO: Need this to generate usable symbols, but the stupid lemon
-# executable is getting in the way
-#ifneq (Msys,$(SB_VENDOR_ARCH))
-#   SB_CFLAGS += -g -gstabs+
-#endif
 
 ifeq (Msys,$(SB_VENDOR_ARCH))
    SB_CC = $(CURDIR)/../clwrapper.py

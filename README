@@ -13,3 +13,17 @@ Building
 
 To build, simply run build.sh if on Linux. Mac and Windows support coming
 soon.
+
+To install build-dependencies on Debian-based systems run:
+sudo apt-get install automake autoconf2.13 libtool cmake unzip zip \
+ libasound2-dev libbz2-dev libcairo2-dev libevent-dev libfreetype6-dev \
+ libgnomevfs2-dev libgtk2.0-dev libharfbuzz-dev libhunspell-dev libidl-dev \
+ libjpeg-dev libnotify-dev libnspr4-dev libnss3-dev libpixman-1-dev \
+ libpng12-dev libsqlite3-dev libxext-dev libxt-dev zlib1g-dev
+
+To create hardened builds run lint-build.sh.
+lint-build.sh also features the following options:
+ --disable-debug: disables debugging builds for xulrunner
+ --arch=ARCH: force architecture ARCH, useful if you want to build i686
+              binaries on a x86_64 system
+

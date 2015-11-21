@@ -79,6 +79,9 @@ else
 	@echo "Define SB_VENDOR_AUTOCLEAN_OBJDIRS to remove the (relatively large) xulrunner object directories (assuming if you don't need them and want to recover some space.)" 1>&2
 endif
 
+xr-release: xr-clean xr-build-release xr-symbols xr-packaging
+xr-debug: xr-clean xr-build-debug xr-symbols xr-packaging
+
 xr-symbols:
 ifndef XR_DISABLE_SYMBOLS
 	@if ! $(HAVE_XR_release_BUILD); then \

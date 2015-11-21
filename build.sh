@@ -16,32 +16,27 @@ case $OSTYPE in
 	# linux is easy, as all it requires right now is xulrunner, sqlite, and taglib
 	# we'll get to a point where this is unnecessary on linux altogether in the future
 	linux*)
-		export CXXFLAGS="-fpermissive"
-		export CFLAGS=$CXXFLAGS
-		export CCFLAGS=$CXXFLAGS
+		export CXXFLAGS="$CXXFLAGS -fpermissive"
+		export CFLAGS="$CFLAGS"
+		export CCFLAGS="$CXXFLAGS"
 
-		if [ ! -d "linux-$(uname -m)" ]; then
-			mkdir -p "linux-$(uname -m)"
-			mkdir -p "checkout/linux-$(uname -m)"
-			mkdir "build"
-		fi
+		mkdir -p "linux-$(uname -m)"
+		mkdir -p "checkout/linux-$(uname -m)"
 
-		echo -e "Building sqlite...\n"
+		echo "Building sqlite..."
         cd sqlite
         autoreconf --force --install
         cd ..
 		make -C sqlite -f Makefile.songbird
-		strip --strip-all "linux-$(uname -m)/sqlite/release/bin/sqlite3"
-		strip --strip-debug "linux-$(uname -m)/sqlite/release/lib/libsqlite3.a"
 		
-		echo -e "Building taglib...\n"
+		echo "Building taglib..."
 		make -C taglib -f Makefile.songbird
-		strip --strip-debug "linux-$(uname -m)/taglib/release/lib/libtag.a"
 
-		echo -e "Building xulrunner 1.9.2...\n"
+		echo "Building xulrunner 1.9.2..."
 		make -C xulrunner-1.9.2 -f Makefile.songbird xr-all
 
-		echo -e "Done! Provided there were no errors, you can \nfind your deps in the linux-$(uname -m) directory. Copy or link it into [nightingale build directory]/dependencies and you're ready to build!\n"
+		echo "Done! Provided there were no errors, you can find your deps in the linux-$(uname -m) directory."
+		echo "Copy or link it into [nightingale build directory]/dependencies and you're ready to build!"
 	;;
     darwin*)
 		# on OSX, we want 32 bit builds

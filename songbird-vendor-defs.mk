@@ -267,13 +267,10 @@ ifneq (,$(CONFIGURE_TARGET))
    SB_CONFIGURE_OPTS += --build=$(CONFIGURE_TARGET)
 endif
 
-ifneq (,$(filter linux-i686 macosx-i686,$(SB_TARGET_ARCH)))
-   SB_CFLAGS += -g -gstabs+
-   SB_CXXFLAGS += -g -gstabs+
-endif
-
 ifeq (debug,$(SB_BUILD_TYPE))
    SB_CONFIGURE_OPTS += --enable-debug
+   SB_CFLAGS += -g
+   SB_CXXFLAGS += -g
    SB_BUILD_TYPE_DETECTED = 1
 endif
 ifeq (release,$(SB_BUILD_TYPE))

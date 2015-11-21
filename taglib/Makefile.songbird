@@ -42,6 +42,7 @@ ifeq (Linux,$(SB_VENDOR_ARCH))
     CMAKE_C_FLAGS := -O2 -fPIC -DPIC $(CFLAGS)
     CMAKE_CXX_FLAGS := -O2 -fPIC -DPIC $(CXXFLAGS)
     CMAKE_LD_FLAGS := $(LDLAGS)
+    CMAKE_SYSTEM_PROCESSOR := -DCMAKE_SYSTEM_PROCESSOR=$(SB_VENDOR_SUBARCH)
 endif
 
 SB_ZLIB_DIR := $(SB_VENDOR_BINARIES_DIR)/zlib/$(SB_BUILD_TYPE)
@@ -63,19 +64,6 @@ ifeq (Msys,$(SB_VENDOR_ARCH))
 
   CMAKE_ZLIB_FLAGS := -DZLIB_INCLUDE_DIR:PATH="$(SB_ZLIB_DIR)/include" \
    -DZLIB_LIBRARY:FILEPATH="$(SB_ZLIB_DIR)/lib/zlib.lib"
-else
-   ifeq (SunOS,$(SB_VENDOR_ARCH))
-      CMAKE_C_FLAGS_DEBUG += -g
-      CMAKE_CXX_FLAGS_DEBUG += -g
-   else
-      ifneq (, $(findstring clang, $(CC)))
-         CMAKE_C_FLAGS_DEBUG += -g
-         CMAKE_CXX_FLAGS_DEBUG += -g
-      else
-         CMAKE_C_FLAGS_DEBUG += -g -gstabs+
-         CMAKE_CXX_FLAGS_DEBUG += -g -gstabs+
-      endif
-   endif
 endif
 
 # This makefile fixes OS X 10.6, by forcing a 10.4u SDK / GCC4.0 build
@@ -93,6 +81,8 @@ CMAKE_ARGS += -DWITH_MP4=ON
 
 ifeq (debug,$(SB_BUILD_TYPE))
   CMAKE_ARGS += -DCMAKE_BUILD_TYPE=Debug
+  CMAKE_C_FLAGS += -g
+  CMAKE_CXX_FLAGS += -g
 endif
 ifeq (release,$(SB_BUILD_TYPE))
   CMAKE_ARGS += -DCMAKE_BUILD_TYPE=Release
@@ -124,6 +114,7 @@ module_setup_build:
           -DCMAKE_INSTALL_PREFIX=$(SB_CONFIGURE_PREFIX) \
           -DCMAKE_DEBUG_POSTFIX= \
           $(CMAKE_ZLIB_FLAGS) \
+          $(CMAKE_SYSTEM_PROCESSOR) \
           -G "$(CMAKE_MAKEFILE_TYPE)"
 
 module_post_build:
