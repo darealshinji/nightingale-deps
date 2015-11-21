@@ -1,6 +1,0 @@
-GFile GObject
-GInitable GObject
-GstChildProxy GObject
-GstStreamVolume GObject
-GstTagSetter GstElement
-PangoCairoFontMap PangoFontMap
