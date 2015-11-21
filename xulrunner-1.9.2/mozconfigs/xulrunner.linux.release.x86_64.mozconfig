@@ -8,6 +8,7 @@ ac_add_options --host=x86_64-unknown-linux-gnu
 ac_add_options --enable-application=xulrunner
 ac_add_options --with-xulrunner-stub-name=nightingale-bin
 ac_add_options --disable-debug
+ac_add_options --disable-pedantic
 ac_add_options --disable-tests
 ac_add_options --disable-javaxpcom
 ac_add_options --enable-update-packaging
