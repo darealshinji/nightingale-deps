@@ -109,19 +109,20 @@ jpake_Verify(PLArenaPool * arena, const PQGParams * pqg,
 #define NUM_ELEM(x) (sizeof (x) / sizeof (x)[0])
 
 /* Ensure that the key is of the given type. */
-//static CK_RV
-//jpake_ensureKeyType(SFTKObject * key, CK_KEY_TYPE keyType)
-//{
-//    CK_RV crv;
-//    SFTKAttribute * keyTypeAttr = sftk_FindAttribute(key, CKA_KEY_TYPE);
-//    crv = keyTypeAttr != NULL && 
-//          *(CK_KEY_TYPE *)keyTypeAttr->attrib.pValue == keyType
-//        ? CKR_OK
-//        : CKR_TEMPLATE_INCONSISTENT;
-//    if (keyTypeAttr != NULL)
-//        sftk_FreeAttribute(keyTypeAttr);
-//    return crv;
-//}
+/* static CK_RV
+ * jpake_ensureKeyType(SFTKObject * key, CK_KEY_TYPE keyType)
+ * {
+ *     CK_RV crv;
+ *     SFTKAttribute * keyTypeAttr = sftk_FindAttribute(key, CKA_KEY_TYPE);
+ *     crv = keyTypeAttr != NULL && 
+ *           *(CK_KEY_TYPE *)keyTypeAttr->attrib.pValue == keyType
+ *         ? CKR_OK
+ *         : CKR_TEMPLATE_INCONSISTENT;
+ *     if (keyTypeAttr != NULL)
+ *         sftk_FreeAttribute(keyTypeAttr);
+ *     return crv;
+ * }
+ */
 
 /* If the template has the key type set, ensure that it was set to the correct
  * value. If the template did not have the key type set, set it to the

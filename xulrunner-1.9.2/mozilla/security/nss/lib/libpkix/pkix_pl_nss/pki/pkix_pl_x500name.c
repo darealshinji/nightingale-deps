@@ -66,39 +66,40 @@
  *  Returns a X500Name Error if the function fails in a non-fatal way.
  *  Returns a Fatal Error if the function fails in an unrecoverable way.
  */
-//static PKIX_Error *
-//pkix_pl_X500Name_ToString_Helper(
-//        PKIX_PL_X500Name *name,
-//        PKIX_PL_String **pString,
-//        void *plContext)
-//{
-//        CERTName *nssDN = NULL;
-//        char *utf8String = NULL;
-//        PKIX_UInt32 utf8Length;
+/* static PKIX_Error *
+ * pkix_pl_X500Name_ToString_Helper(
+ *         PKIX_PL_X500Name *name,
+ *         PKIX_PL_String **pString,
+ *         void *plContext)
+ * {
+ *         CERTName *nssDN = NULL;
+ *         char *utf8String = NULL;
+ *         PKIX_UInt32 utf8Length;
 
-//        PKIX_ENTER(X500NAME, "pkix_pl_X500Name_ToString_Helper");
-//        PKIX_NULLCHECK_TWO(name, pString);
-//        nssDN = &name->nssDN;
-
+ *         PKIX_ENTER(X500NAME, "pkix_pl_X500Name_ToString_Helper");
+ *         PKIX_NULLCHECK_TWO(name, pString);
+ *         nssDN = &name->nssDN;
+ */
         /* this should really be called CERT_NameToUTF8 */
-//        utf8String = CERT_NameToAsciiInvertible(nssDN, CERT_N2A_INVERTIBLE);
-//        if (!utf8String){
-//                PKIX_ERROR(PKIX_CERTNAMETOASCIIFAILED);
-//        }
+/*         utf8String = CERT_NameToAsciiInvertible(nssDN, CERT_N2A_INVERTIBLE);
+ *         if (!utf8String){
+ *                 PKIX_ERROR(PKIX_CERTNAMETOASCIIFAILED);
+ *         }
 
-//        PKIX_X500NAME_DEBUG("\t\tCalling PL_strlen).\n");
-//        utf8Length = PL_strlen(utf8String);
+ *         PKIX_X500NAME_DEBUG("\t\tCalling PL_strlen).\n");
+ *         utf8Length = PL_strlen(utf8String);
 
-//        PKIX_CHECK(PKIX_PL_String_Create
-//                    (PKIX_UTF8, utf8String, utf8Length, pString, plContext),
-//                    PKIX_STRINGCREATEFAILED);
+ *         PKIX_CHECK(PKIX_PL_String_Create
+ *                     (PKIX_UTF8, utf8String, utf8Length, pString, plContext),
+ *                     PKIX_STRINGCREATEFAILED);
 
-//cleanup:
+ * cleanup:
 
-//        PR_Free(utf8String);
+ *         PR_Free(utf8String);
 
-//        PKIX_RETURN(X500NAME);
-//}
+ *         PKIX_RETURN(X500NAME);
+ * }
+ */
 
 /*
  * FUNCTION: pkix_pl_X500Name_Destroy
