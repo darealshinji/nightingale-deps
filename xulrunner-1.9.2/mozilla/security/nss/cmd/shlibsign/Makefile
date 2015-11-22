@@ -78,15 +78,15 @@ endif
 
 # sign any and all shared libraries that contain the word freebl
 
-CHECKLIBS = $(DIST)/lib/$(DLL_PREFIX)softokn3.$(DLL_SUFFIX)
-CHECKLIBS += $(wildcard $(DIST)/lib/$(DLL_PREFIX)freebl*3.$(DLL_SUFFIX))
-ifndef NSS_DISABLE_DBM
-CHECKLIBS += $(DIST)/lib/$(DLL_PREFIX)nssdbm3.$(DLL_SUFFIX)
-endif
-CHECKLOC = $(CHECKLIBS:.$(DLL_SUFFIX)=.chk)
+#CHECKLIBS = $(DIST)/lib/$(DLL_PREFIX)softokn3.$(DLL_SUFFIX)
+#CHECKLIBS += $(wildcard $(DIST)/lib/$(DLL_PREFIX)freebl*3.$(DLL_SUFFIX))
+#ifndef NSS_DISABLE_DBM
+#CHECKLIBS += $(DIST)/lib/$(DLL_PREFIX)nssdbm3.$(DLL_SUFFIX)
+#endif
+#CHECKLOC = $(CHECKLIBS:.$(DLL_SUFFIX)=.chk)
 
-MD_LIB_RELEASE_FILES = $(CHECKLOC)
-ALL_TRASH += $(CHECKLOC)
+#MD_LIB_RELEASE_FILES = $(CHECKLOC)
+#ALL_TRASH += $(CHECKLOC)
 
 
 #######################################################################
@@ -109,16 +109,16 @@ include ../platrules.mk
 
 SRCDIR = $(call core_abspath,.)
 
-%.chk: %.$(DLL_SUFFIX) 
-ifeq ($(OS_TARGET), OS2)
-	cd $(OBJDIR) ; cmd.exe /c $(SRCDIR)/sign.cmd $(DIST) \
-	$(call core_abspath,$(OBJDIR)) $(OS_TARGET) \
-	$(call core_abspath,$(NSPR_LIB_DIR)) $(call core_abspath,$<)
-else
-	cd $(OBJDIR) ; sh $(SRCDIR)/sign.sh $(call core_abspath,$(DIST)) \
-	$(call core_abspath,$(OBJDIR)) $(OS_TARGET) \
-	$(call core_abspath,$(NSPR_LIB_DIR)) $(call core_abspath,$<)
-endif
+#%.chk: %.$(DLL_SUFFIX) 
+#ifeq ($(OS_TARGET), OS2)
+#	cd $(OBJDIR) ; cmd.exe /c $(SRCDIR)/sign.cmd $(DIST) \
+#	$(call core_abspath,$(OBJDIR)) $(OS_TARGET) \
+#	$(call core_abspath,$(NSPR_LIB_DIR)) $(call core_abspath,$<)
+#else
+#	cd $(OBJDIR) ; sh $(SRCDIR)/sign.sh $(call core_abspath,$(DIST)) \
+#	$(call core_abspath,$(OBJDIR)) $(OS_TARGET) \
+#	$(call core_abspath,$(NSPR_LIB_DIR)) $(call core_abspath,$<)
+#endif
 
-libs install :: $(CHECKLOC)
+#libs install :: $(CHECKLOC)
 

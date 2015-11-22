@@ -310,6 +310,8 @@ ifdef MOZ_XUL
 	$(MAKE) -C pki $@
 endif
 
+SKIP_CHK=1
+
 libs::
 ifndef MOZ_NATIVE_NSS
 	$(NSSMAKE) -C $(topsrcdir)/security/coreconf $(DEFAULT_GMAKE_FLAGS)
