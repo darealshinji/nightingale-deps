@@ -8,11 +8,11 @@ mk_add_options BUILD_OFFICIAL=1
 mk_add_options MOZILLA_OFFICIAL=1
 
 # hardening flags
-export CFLAGS="-m32 -g -O2 -fstack-protector --param=ssp-buffer-size=4 \
+export CFLAGS="-m64 -g -O2 -fstack-protector --param=ssp-buffer-size=4 \
  -Wno-unused-result -Wno-unused-variable -Wno-unused-but-set-variable -Wno-maybe-uninitialized \
  -Wno-sign-compare -Wno-parentheses -Wno-missing-field-initializers -Wno-enum-compare -Wno-switch"
 
-export CXXFLAGS="-m32 -g -O2 -fstack-protector --param=ssp-buffer-size=4 -fpermissive  \
+export CXXFLAGS="-m64 -g -O2 -fstack-protector --param=ssp-buffer-size=4 -fpermissive  \
  -Wno-unused-result -Wno-unused-variable -Wno-unused-but-set-variable -Wno-maybe-uninitialized \
  -Wno-sign-compare -Wno-parentheses -Wno-reorder -Wno-narrowing -Wno-conversion-null \
  -Wno-missing-field-initializers -Wno-overloaded-virtual -Wno-enum-compare -Wno-write-strings \
