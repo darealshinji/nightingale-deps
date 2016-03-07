@@ -71,6 +71,7 @@ clean:
 distclean: clean
 	rm -rf checkout
 	cd xulrunner-1.9.2/mozilla && rm -f configure .mozconfig .mozconfig.mk .mozconfig.out security/manager/.nss.checkout
+	cd sqlite && rm -rf autom4te.cache aclocal.m4 compile config.guess config.sub configure depcomp install-sh ltmain.sh Makefile.in missing
 	find . -type f -name \*.pyc -delete
 
 .PHONY: world clean distclean
