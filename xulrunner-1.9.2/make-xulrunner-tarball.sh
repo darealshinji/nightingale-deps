@@ -38,15 +38,6 @@ tarballname="$3"
 tarball="$tarballdir/$tarballname"
 
 permFixDir="$srcDirname/$srcBasename"
-notice "Fixing permissions in $permFixDir..."
-
-notice "finding executable files..."
-$FIND -L "$permFixDir" -perm +0111 -not -type d -not -name '*\.so' -exec chmod 0755 {} \; -print
-
-notice "finding non executable files..."
-$FIND -L "$permFixDir" -not -perm +0111 -exec chmod 0644 {} \; -print
-$FIND -L "$permFixDir" -perm +0111 -name '*\.so' -exec chmod 0644 {} \; -print
-
 cd "$permFixDir"
 
 notice "Creating mega xpt out of all .xpts..."
